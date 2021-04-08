@@ -15,36 +15,44 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Awesome App 1"),
       ),
-      body: Container(
-        height: 500,
-        color: Colors.teal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      body: Center(
+        child: Container(
+          height: 100,
+          width: 100,
+          color: Colors.teal,
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(0),
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 100,
-              height: 100,
-              color: Colors.red,
-              alignment: Alignment.center,
+            UserAccountsDrawerHeader(
+              accountName: Text("Sandeep"),
+              accountEmail: Text("valpasanisandeep@gmail.com"),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://images.unsplash.com/photo-1480455624313-e29b44bbfde1?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8&w=1000&q=80"),
+              ),
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 100,
-              height: 100,
-              color: Colors.green,
-              alignment: Alignment.center,
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text("I am Sandeep"),
+              subtitle: Text("Developer"),
+              trailing: Icon(Icons.edit),
+              onTap: () {},
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 100,
-              height: 100,
-              color: Colors.yellow,
-              alignment: Alignment.center,
-            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text("Email"),
+              subtitle: Text("valpasanisandeep@gmail.com"),
+              trailing: Icon(Icons.edit),
+            )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.edit),
       ),
     );
   }
