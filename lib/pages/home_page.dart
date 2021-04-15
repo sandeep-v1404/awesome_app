@@ -1,5 +1,5 @@
-import 'package:awesome_app/pages/login_page.dart';
 import 'package:awesome_app/utils/constants.dart';
+import 'package:awesome_app/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../drawer.dart';
@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class HomePage extends StatefulWidget {
-  static const String routeName = "/home";
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
                 Constants.prefs.setBool("loggedIn", false);
-                Navigator.pushReplacementNamed(context, LoginPage.routeName);
+                Navigator.pushReplacementNamed(context, MyRoutes.loginRoute);
               }),
         ],
       ),
