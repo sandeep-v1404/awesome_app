@@ -9,11 +9,24 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool changeButton = false;
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   final _usernameController = TextEditingController();
 
   final _passwordController = TextEditingController();
+
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        changeButton = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +47,46 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
                   child: Form(
-                    key: formKey,
+                    key: _formKey,
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: <Widget>[
                             TextFormField(
-                                controller: _usernameController,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                    hintText: "Enter Email",
-                                    labelText: "Username")),
+                              controller: _usernameController,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Username cannot be empty";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Enter Username",
+                                  labelText: "Username"),
+                            ),
                             SizedBox(
                               height: 20,
                             ),
                             TextFormField(
-                                controller: _passwordController,
-                                keyboardType: TextInputType.text,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                    hintText: "Enter Password",
-                                    labelText: "Password")),
+                              controller: _passwordController,
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Password cannot be empty";
+                                } else if (value.length < 6) {
+                                  return "Password length should be atleast 6";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Enter Password",
+                                  labelText: "Password"),
+                            ),
                             SizedBox(
-                              height: 20,
+                              height: 40,
                             ),
                             // ElevatedButton(
                             //   onPressed: () {
@@ -71,15 +100,14 @@ class _LoginPageState extends State<LoginPage> {
                             //   },
                             //   child: Text("Sign In"),
                             // )
-                            InkWell(
-                                onTap: () async {
-                                  setState(() {
-                                    changeButton = true;
-                                  });
-                                  await Future.delayed(Duration(seconds: 1));
-                                  Navigator.pushNamed(
-                                      context, MyRoutes.homeRoute);
-                                },
+                            Material(
+                              color: Colors.deepPurple,
+                              borderRadius:
+                                  BorderRadius.circular(changeButton ? 50 : 8),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(
+                                    changeButton ? 50 : 8),
+                                onTap: () => moveToHome(context),
                                 child: AnimatedContainer(
                                   duration: Duration(seconds: 1),
                                   width: changeButton ? 50 : 100,
@@ -98,11 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                                             fontSize: 18,
                                           ),
                                         ),
-                                  decoration: BoxDecoration(
-                                      color: Colors.deepPurple,
-                                      borderRadius: BorderRadius.circular(
-                                          changeButton ? 50 : 8)),
-                                ))
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
